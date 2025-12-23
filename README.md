@@ -9,6 +9,7 @@ Backend API for Cycle E-commerce Website built with Node.js and Express.
 - Shopping cart functionality
 - RESTful API design
 - MongoDB database integration
+- Cloudinary image upload and storage
 
 ## Installation
 
@@ -25,7 +26,18 @@ PORT=5000
 MONGODB_URI=mongodb://localhost:27017/cycle-ecommerce
 JWT_SECRET=your-secret-key-change-in-production
 NODE_ENV=development
+
+# Cloudinary Configuration (Get these from https://console.cloudinary.com/)
+CLOUDINARY_CLOUD_NAME=your-cloud-name
+CLOUDINARY_API_KEY=your-api-key
+CLOUDINARY_API_SECRET=your-api-secret
 ```
+
+**To get your Cloudinary credentials:**
+1. Sign up at [Cloudinary](https://cloudinary.com/)
+2. Go to your [Dashboard](https://console.cloudinary.com/)
+3. Copy your `Cloud Name`, `API Key`, and `API Secret` from the dashboard
+4. Add them to your `.env` file
 
 3. Make sure MongoDB is running on your system
 
@@ -70,14 +82,17 @@ npm start
 backend/
 ├── src/
 │   ├── config/
-│   │   └── database.js
+│   │   ├── database.js
+│   │   └── cloudinary.js
 │   ├── controllers/
 │   │   ├── productController.js
 │   │   ├── userController.js
 │   │   └── cartController.js
 │   ├── middleware/
 │   │   ├── auth.js
-│   │   └── errorHandler.js
+│   │   ├── errorHandler.js
+│   │   ├── uploadImages.js
+│   │   └── parseFormData.js
 │   ├── models/
 │   │   ├── Product.js
 │   │   ├── User.js

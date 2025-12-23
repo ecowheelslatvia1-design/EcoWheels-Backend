@@ -2,14 +2,20 @@ const mongoose = require("mongoose");
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(
-      process.env.MONGODB_URI || "mongodb://localhost:27017/cycle-ecommerce"
-    );
+    const mongoURI =
+      process.env.MONGODB_URI || "mongodb://localhost:27017/cycle-ecommerce";
 
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
+    const conn = await mongoose.connect(mongoURI);
+
+    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
     return conn;
   } catch (error) {
-    console.error(`Error: ${error.message}`);
+    console.error(`❌ MongoDB Connection Error: ${error.message}`);
+    console.error(
+      "\n💡 Make sure MongoDB is running:\n" +
+        "   - Local: Start MongoDB service\n" +
+        "   - Or update MONGODB_URI in .env file to point to your MongoDB instance"
+    );
     process.exit(1);
   }
 };
