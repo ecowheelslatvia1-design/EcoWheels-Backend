@@ -9,8 +9,8 @@ const seedAdmin = async () => {
       // Create admin user with hardcoded credentials
       await User.create({
         name: "Admin",
-        email: "admin@admin.com",
-        password: "admin123", // Simple password
+        email: process.env.ADMIN_EMAIL,
+        password: process.env.ADMIN_PASSWORD, // Simple password
         role: "admin",
       });
 
