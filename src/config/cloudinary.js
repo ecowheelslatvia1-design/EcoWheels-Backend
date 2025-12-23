@@ -51,22 +51,22 @@ const upload = multer({
 const uploadToCloudinary = (buffer, folder = "ecowheels/products", retries = 3) => {
   return new Promise((resolve, reject) => {
     const attemptUpload = (attemptNumber) => {
-      const uploadStream = cloudinary.uploader.upload_stream(
-        {
-          folder: folder,
-          resource_type: "image",
-          transformation: [
-            {
-              width: 1000,
-              height: 1000,
-              crop: "limit",
-              quality: "auto",
-            },
-          ],
+    const uploadStream = cloudinary.uploader.upload_stream(
+      {
+        folder: folder,
+        resource_type: "image",
+        transformation: [
+          {
+            width: 1000,
+            height: 1000,
+            crop: "limit",
+            quality: "auto",
+          },
+        ],
           timeout: 60000, // 60 seconds timeout per attempt
-        },
-        (error, result) => {
-          if (error) {
+      },
+      (error, result) => {
+        if (error) {
             // Retry on network errors
             if (
               (error.code === 'ETIMEDOUT' || 
@@ -77,16 +77,16 @@ const uploadToCloudinary = (buffer, folder = "ecowheels/products", retries = 3) 
               console.log(`Upload attempt ${attemptNumber} failed, retrying... (${retries - attemptNumber} attempts left)`);
               setTimeout(() => attemptUpload(attemptNumber + 1), 2000 * attemptNumber); // Exponential backoff
             } else {
-              reject(error);
+          reject(error);
             }
-          } else {
-            resolve(result);
-          }
+        } else {
+          resolve(result);
         }
-      );
+      }
+    );
 
-      const stream = Readable.from(buffer);
-      stream.pipe(uploadStream);
+    const stream = Readable.from(buffer);
+    stream.pipe(uploadStream);
     };
 
     attemptUpload(1);
