@@ -1,19 +1,18 @@
 const app = require("./app");
 const connectDB = require("./config/database");
 const seedAdmin = require("./config/seedAdmin");
+const serverless = require("@codegenie/serverless-express");
+let serverlessHandler;
 
-// Connect to database
-connectDB().then(async () => {
-  // Seed admin user after database connection
-  await seedAdmin();
+export default {
+  async fetch(request, env, ctx) {
+    await connectDB();
+    await seedAdmin();
 
-  const PORT = process.env.PORT || 5000;
+    if (!serverlessHandler) {
+      serverlessHandler = serverless({ app });
+    }
 
-  app.listen(PORT, () => {
-    console.log(
-      `Server running in ${
-        process.env.NODE_ENV || "development"
-      } mode on port ${PORT}`
-    );
-  });
-});
+    return serverlessHandler(request, env, ctx);
+  },
+};
