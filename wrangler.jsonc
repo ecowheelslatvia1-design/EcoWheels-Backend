@@ -1,0 +1,7 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "my-express-worker",
+  "main": "src/server.js", 
+  "compatibility_date": "2026-02-05",
+  "compatibility_flags": [ "nodejs_compat" ] 
+}
